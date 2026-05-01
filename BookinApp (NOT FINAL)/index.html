@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="sv">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kalender</title>
+
+        <!-- Lägger till manifest för att göra vår app till en PWA -->
+        <link rel="manifest" href="/bookingappNewLay-V1.1/manifest.json">
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="preload" href="./Public/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <script type="module" src="./Public/script.js" defer></script> <!-- Vår JS -->
+        
+    </head>
+<body>
+    <div class="fullscreen-container">
+        <div class="left">
+            <div class="row">
+                <!-- Vänster Container (Klocka och Kalender) -->
+                <div class="col-md-8">
+                    <div class="rounded">
+                        <!-- Här ska vårt Rum som ska bokas vara-->
+                        <div id="clock">
+                            
+                            <div class="analog-clock" id="analogClock">
+                                <div id="hourHand" class="hand hour"></div>
+                                <div id="minuteHand" class="hand minute"></div>
+                                <div id="secondHand" class="hand second"></div>
+                                <div class="center"></div>
+                                <!-- Siffror runt klockan -->
+                                <div class="number" style="--i: 0;">12</div>
+                                <div class="number" style="--i: 1;">1</div>
+                                <div class="number" style="--i: 2;">2</div>
+                                <div class="number" style="--i: 3;">3</div>
+                                <div class="number" style="--i: 4;">4</div>
+                                <div class="number" style="--i: 5;">5</div>
+                                <div class="number" style="--i: 6;">6</div>
+                                <div class="number" style="--i: 7;">7</div>
+                                <div class="number" style="--i: 8;">8</div>
+                                <div class="number" style="--i: 9;">9</div>
+                                <div class="number" style="--i: 10;">10</div>
+                                <div class="number" style="--i: 11;">11</div>
+                            </div>
+                            
+                        </div>
+                        <div class="DC_io">
+                            <!-- Digital Clock -->
+                            <div id="digital-clock" class="dark">
+                                <div class="display">
+                                    <div class="weekdays"></div>
+                                    <div class="ampm"></div>
+                                    <div class="digits"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="button-holder">
+                            <a class="button">Byt Tema På Digital klocka</a>
+                            <a class="button2">Byt bakgrunds färg</a>
+                        </div>
+                        <div class="monthYear_div">
+                                <button id="prevMonth" class="btn btn-primary"><p>‹</p></button>
+                            <div class="rounded_monthYear_div">
+                                <h2 id="monthYear" ></h2>
+                            </div>
+                                <button id="nextMonth" class="btn btn-primary"><p>›</p></button>
+                        </div>
+                        
+                        <div id="calendar-container" class="calendar-container">
+                            <div id="calendar" class="mt-4"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Höger Container (Bokningar) -->
+                <div class="right">
+                    <div class="bookings">
+                        <div class="inne_bookings">
+                           <h2>Bokningar</h2> 
+                        </div>
+                            <div class="utmatning">
+                                <ul id="bookings-list"></ul> <!-- Här kommer bokningarna att listas -->
+                            </div>
+                            <div class="inmatning">
+                            <!-- Här lägger vi till bokningsformulär eller annan information -->
+                            <form id="booking-form">
+                                <div class="form-group">
+                                    <label for="booking-name" id="booking-name-label">Namn</label>
+                                    <input type="text" class="form-control" id="booking-name" name="booking_name" placeholder="Klicka eller fyll i ditt namn" required>
+                                    
+                                </div>
+                                <div class="name_suggest">
+                                    <div id="name-suggestions" class="name-suggestions"> </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="booking-date" id="booking-dlabel">Datum</label>
+                                    <input type="date" class="form-control" id="booking-date" name="booking_date" required>
+                                </div>
+                                
+                            </form>
+                            
+                            <div class="container" id="Tider">
+                                <label id="time_label">Tid</label>
+                                <!-- Tid Från -->
+                                <div class="input-field">
+                                    <button id="set-time-from" class="btn">Från</button> <!-- Tid Från knapp -->
+                                </div>
+                            
+                                <!-- Tid Till -->
+                                <div class="input-field">
+                                    <button id="set-time-to" class="btn">Till</button> <!-- Tid Till knapp -->
+                                </div>
+                            </div>
+                                                        
+                            
+                            <!-- Modal för Timepicker -->
+                            <div id="timepicker-modal" class="timepicker-modal">
+                                <div class="timepicker-content">
+                                    <input type="text" class="timepicker" id="floating-timepicker">
+                                    <button id="close-timepicker" class="btn">OK</button>
+                                </div>
+                            </div>
+                            
+                            <div id="loading-spinner" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                <div class="spinner"></div>
+                            </div>
+                            <div class="selectordiv">
+                            <button type="submit" id="book-button" class="btn btn-primary">Boka</button>
+                            <button class="btn btn-danger" id="cancelButton">AvBoka</button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

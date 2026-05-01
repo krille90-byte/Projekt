@@ -1,0 +1,1147 @@
+* {
+  box-sizing: border-box; /* Gör så att padding och border ingår i elementets totala bredd och höjd */
+}
+/* För att säkerställa att hela sidan fyller skärmen */
+/* Grundinställningar för att fylla hela höjden */
+html, body {
+  width: 100%;
+  height: auto;            /* Gör att HTML och body fyller hela skärmen */
+  margin: 0;               /* Ta bort standardmarginaler */
+  padding: 0;              /* Ta bort eventuell padding */
+  overflow: hidden;        /* Ta bort rullgardiner om det behövs */
+}
+
+
+/* Flexbox layout för hela body */
+body {
+  display: flex;
+  height: 100vh;
+  
+}
+
+/* Gemensam bakgrund för hela fullscreen-container */
+.fullscreen-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 1920px;
+  height: 1080px;
+  background: linear-gradient(to bottom, #007bff, #d1e7ff); /* Gemensam bakgrund */
+  background-size: cover; /* Täcker hela ytan */
+  background-repeat: no-repeat;
+  gap: 0; /* Ta bort mellanrum */
+}
+
+/* Styla rubriken */
+.fullscreen-container h1 {
+  font-size: 5vw; /* Dynamisk fontstorlek som anpassar sig till skärmbredden */
+}
+
+/* Styla texten */
+.fullscreen-container p {
+  font-size: 3vw; /* Dynamisk fontstorlek */
+}
+
+
+
+/* Ta bort bakgrund från left och right */
+.left, .right {
+  flex: 1;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none; /* Ingen individuell bakgrund */
+}
+.left {
+  flex: 1;
+  margin-right: -1px; /* Tar bort eventuell pixel-glipa */
+  width: 100%;
+  height: auto;
+}
+
+.right {
+  flex: 1;
+  margin-right: 10px; /* Återställ så det inte påverkar layouten */
+  width: 100%;
+  height: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#calendar {
+    display: grid;
+    grid-template-columns: auto repeat(7, 1fr); /* En kolumn för veckonumret och 7 för veckodagarna */
+    gap: 1px; /* Litet avstånd mellan celler */
+}
+
+.vecko-dagar {
+    background-color: #f0f0f0; /* Bakgrund för header */
+    text-align: center; /* Centrera texten */
+    font-size: calc(0.65rem + 0.65vw);
+    font-weight: bold; /* Fet stil för header */
+    user-select: none;
+}
+
+.week-number {
+    text-align: center; /* Centrera veckonumret */
+    background-color: #e0e0e0; /* Bakgrundsfärg för veckonumret */
+    border: 1px solid #ccc; /* Ramar för veckonumret */
+    padding: 10px; /* Padding för att ge utrymme */
+    font-size: calc(0.65rem + 0.65vw);
+    user-select: none;
+}
+
+.day {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    text-align: center;
+    margin: 2px;
+    background-color: #03930f;
+    color: white;
+    transition: background-color 0.3s;
+    font-size: calc(0.65rem + 0.65vw);
+    user-select: none;
+}
+.day:hover,
+.day:focus {
+    background-color: #0c8d22;
+    outline: none;
+}
+.day.disabled {
+  color: #999; /* Grå färg för inaktiverade dagar */
+  background-color: #747474; /* Mörkare bakgrund */
+  pointer-events: none; /* Ta bort klickbarhet */
+  cursor: default; /* Ändra markören */
+}
+.day.today {
+  background-color: rgb(105, 10, 129); /* Lila bakgrund för dagens datum */
+  color: white; /* Vit text för kontrast */
+}
+
+.day.selected {
+  box-shadow: inset 0 0 0 3px #00f; /* Blå kant inuti elementet */ 
+}
+.day.booked {
+  background-color: rgb(99, 5, 5);  /* Röd bakgrund för bokade dagar */
+  color: white;           /* För att texten ska synas på röd bakgrund */
+}
+.day.booked.today{
+  background-color: rgb(105, 10, 129); /* Lila bakgrund för dagens datum */
+  color: white; /* Vit text för kontrast */
+}
+
+
+.rounded {
+  border-radius: 15px;
+  margin-top: 30px;
+  margin-left: 20px;
+  height: auto; /* Justerad till 100% istället för 100vh */
+  
+  border: none;
+}
+
+
+
+.text-center {
+    margin-bottom: 20px; /* Lägger till lite avstånd under knapparna */
+}
+
+/*---------- VÅRA KLOCKOR -------------*/
+
+#clock {
+    display: flex;
+    justify-content: center;
+    
+    gap: 20px; /* Avstånd mellan knapparna och klockan */
+}
+#clock {
+    display: flex;
+    position: relative;
+    padding: 30px 30px;
+    text-align: center;
+    height: auto;
+    font-size: calc(0.65rem + 0.65vw);
+    margin-top: -30px;
+    margin-bottom: -30px;
+    user-select: none;
+}
+
+
+.analog-clock {
+    position: relative;
+    width: 200px; /* Anpassa storleken efter behov */
+    height: 200px;
+    border: 2px solid black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fafafa; /* Lägger till en ljus bakgrundsfärg för klockan */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Lägg till en mjuk skugga för djup */
+}
+
+.center {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #333; /* För att skapa en mörkare kontrast */
+    border-radius: 50%;
+    z-index: 10;
+    border: 2px solid white; /* Lägg till en vit kant för att markera mitten */
+}
+
+/* Siffror runt klockan */
+.number {
+    position: absolute;
+    font-size: 20px;
+    color: #333; /* Mörkare färg för siffrorna */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Lägger till en liten skugga för djup */
+    transform: rotate(calc(var(--i) * 30deg)) translateY(-90px); /* Justera för att centrera */
+    transform-origin: center; /* Se till att siffrorna är centrerade */
+}
+
+/* Klockvisare */
+.hand {
+    position: absolute; /* Gör att vi kan positionera visarna relativt till deras förälder (klockan) */
+    background-color: #333; /* Färg på visarna */
+    transform-origin: bottom; /* Rotationspunkt för visarna - de roterar kring sin botten */
+    border-radius: 10px;
+}
+
+/* Klockvisare - justera position */
+.hour {
+    width: 6px; /* Bredd på timvisaren */
+    height: 50px; /* Justera höjden om nödvändigt */
+    z-index: 5; /* Visaren hamnar på lager 5. Lägre värde än minut- och sekundvisaren, så den visas under dem. */
+    top: 48px; /* Flytta visaren upp eller ner för att justera dess position */
+    left: 48%; /* Centrera visaren horisontellt i förhållande till klockan */
+    transform: translate(-50%, -100%); /* Flytta upp visaren så att den pekar på 12-an istället för att vara i mitten av klockan */
+    border-radius: 10px;
+}
+
+.minute {
+    width: 4px; /* Bredd på minutvisaren */
+    height: 70px; /* Justera höjden om nödvändigt */
+    z-index: 6; /* Visaren hamnar på lager 6. Den visas ovanför timvisaren (z-index: 5) men under sekundvisaren. */
+    top: 28px; /* Justera positionen som behövs */
+    left: 49%; /* Centrera visaren horisontellt i förhållande till klockan */
+    transform: translate(-50%, -100%); /* Flytta upp visaren så att den pekar på 12-an */
+    border-radius: 10px;
+}
+
+.second {
+    width: 2px; /* Bredd på sekundvisaren */
+    height: 80px; /* Justera höjden om nödvändigt */
+    background-color: red; /* Färg på sekundvisaren */
+    z-index: 7; /* Visaren hamnar på lager 7. Den visas ovanför både tim- och minutvisaren. */
+    top: 20px; /* Justera positionen som behövs */
+    left: 50%; /* Centrera visaren horisontellt i förhållande till klockan */
+    transform: translate(-50%, -100%); /* Flytta upp visaren så att den pekar på 12-an */
+    border-radius: 10px;
+}
+.DC_io{     /* Digital klockans div element där den befinner sig*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px;
+}
+.monthYear_div{
+    display: flex;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    justify-content: space-between;
+}
+#prevMonth {
+  display: flex;
+  justify-content: center; /* Horisontell centrering */
+  align-items: center;    /* Vertikal centrering */
+  width: calc(2.5rem + 2.5vw);
+  max-width: 30%;
+  height: calc(2.5rem + 2.5vw);
+  margin-top: 15px;
+  margin-left: 20%;
+  background-color: #f81818c5;
+  border-radius: 50%;     /* Gör knappen till en cirkel */
+  border: none;           /* Tar bort eventuell kantlinje */
+  cursor: pointer;        /* För att indikera att det är en knapp */
+  position: relative;     /* För finjusteringar om det behövs */
+}
+
+#prevMonth p {
+  margin: 0;              /* Tar bort standardmarginaler från <p> */
+  padding: 0;             /* Tar bort standardpadding från <p> */
+  line-height: 1;         /* Justerar textens linjehöjd */
+  font-size: calc(4rem + 4vw);
+  padding-bottom: 50%;
+  text-align: center;     /* Säkerställer horisontell centrering */
+  transform: translateY(-2%); /* Visuell justering av vertikal position */
+}
+
+
+/* Justera höjden och bredden på `rounded_monthYear_div` för att undvika att det sticker ut */
+.rounded_monthYear_div {
+  width: calc(28rem + 0.1vw); /* Justerad bredd för att passa bättre */
+  height: auto;
+  background-color: #f1f1f1;
+  border: 1px solid #000;
+  box-shadow: 0 4px 8px #000;
+  justify-content: center;
+  border-radius: 25px;
+  padding: 10px;
+  margin: 5px;
+}
+#monthYear {
+  margin: 0;
+  padding: 10px;
+  font-family: 'American Typewriter', 'Roboto', serif;
+  font-style: italic;
+  font-weight: 700;
+  user-select: none;
+
+  /* Dynamisk fontstorlek */
+  font-size: calc(1rem + 2vw);
+
+  /* Responsiv bredd och höjd */
+  width: 100%;
+  height: auto;
+  /*padding-right: 7%;*/
+
+  /* Tillåt radbrytning */
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  /* Centrera texten */
+  text-align: center;
+  line-height: 0.8;
+}
+
+
+
+
+
+#nextMonth {
+  display: flex;
+  justify-content: center; /* Horisontell centrering */
+  align-items: center;    /* Vertikal centrering */
+  width: calc(2.5rem + 2.5vw);
+  max-width: 30%;
+  height: calc(2.5rem + 2.5vw);
+  margin-top: 15px;
+  margin-right: 20%;
+  background-color: #f81818c5;
+  border-radius: 50%;     /* Gör knappen till en cirkel */
+  border: none;           /* Tar bort eventuell kantlinje */
+  cursor: pointer;        /* För att indikera att det är en knapp */
+  position: relative;     /* För finjusteringar om det behövs */
+}
+
+#nextMonth p {
+  margin: 0;              /* Tar bort standardmarginaler från <p> */
+  padding: 0;             /* Tar bort standardpadding från <p> */
+  line-height: 1;         /* Justerar textens linjehöjd */
+  font-size: calc(4rem + 4vw);
+  padding-bottom: 50%;    /* För att centrera text visuellt */
+  text-align: center;     /* Säkerställer horisontell centrering */
+  transform: translateY(-2%); /* Visuell justering av vertikal position */
+}
+
+
+#digital-clock {
+    width: 100%;
+    height: auto; /* Fast höjd */
+    border-radius: 30px;
+    text-align: center;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    /*font-size: 30px;*/
+    overflow: hidden;
+    background-color: #333;
+    line-height: 50px; /* Centrera texten vertikalt */
+}
+  
+  #digital-clock .display{ 
+    text-align:center;
+    padding: 1px;    /* Sköter vart våra digits är på skärm div:en*/
+    border-radius:30px;
+    position:relative;
+    height: auto;
+  }
+  
+  #digital-clock .digits div.zero:first-child {
+    opacity: 0; 
+  }
+  
+  /*-------------------------
+    Light color theme
+  --------------------------*/
+  
+  
+  #digital-clock.light{
+    background-color:#000000;
+    color: #0e0808; /* Justera textfärg beroende på behov */
+    border:5px ridge rgb(0, 0, 0);
+  }
+  
+  #digital-clock.light:after{
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+  }
+  
+  #digital-clock.light .digits div span{
+    background-color:#272e38; 
+    border-color:#272e38;   
+  }
+  
+  #digital-clock.light .digits div.dots:before,
+  #digital-clock.light .digits div.dots:after{
+    background-color:#273828;
+    animation: blinker 1s infinite; 
+  }
+  
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+  
+  
+  #digital-clock.light .display{
+    background-color:#bbb;
+    box-shadow:0 1px 1px rgba(0,0,0,0.08) inset, 0 1px 1px #bbb;
+  }
+  
+  
+  /*-------------------------
+    Dark color theme
+  --------------------------*/
+  
+  
+  #digital-clock.dark{
+    background-color:#272e38;
+    color:#70f;
+    border:5px ridge #272e38;
+  }
+  
+  #digital-clock.dark:after{
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  } 
+  
+  #digital-clock.dark .digits div span{
+    background-color:#70f;
+    border-color:#70f;  
+  }
+  
+  #digital-clock.dark .alarm{
+    background:url('../img/alarm_dark.jpg');
+  }
+  
+  #digital-clock.dark .display{
+    background-color:#0f1620;
+    box-shadow:0 1px 1px rgba(0,0,0,0.08) inset, 0 1px 1px #49586b; 
+  }
+  
+  #digital-clock.dark .digits div.dots:before,
+  #digital-clock.dark .digits div.dots:after{
+    background-color:#70f;
+    animation: blinker 1s infinite;
+  }
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+  
+  
+  /*-------------------------
+    The Digits
+  --------------------------*/
+  
+  #digital-clock .digits{
+    display: flex;
+    padding: 20px;
+    padding-right: 50px;
+    margin-right: 50px;
+    margin-top: 25px;
+    width: 100%;
+    height: auto;
+    
+    justify-content: center;
+    position: center;
+  }
+  
+
+  #digital-clock .digits div{
+    text-align:left;
+    position:relative;
+    width: 28px;
+    height:50px;
+    display:inline-block;
+    margin:0 4px;
+  }
+  
+  #digital-clock .digits div span{
+    opacity:0;
+    position:absolute;
+    -webkit-transition:0.25s;
+    -moz-transition:0.25s;
+    transition:0.25s;
+  }
+  
+  #digital-clock .digits div span:before,
+  #digital-clock .digits div span:after{
+    content:'';
+    position:absolute;
+    width:0;
+    height:0;
+    border:5px solid transparent;
+  }
+  
+  #digital-clock .digits .d1{     height:5px;width:16px;top:0;left:6px;}
+  #digital-clock .digits .d1:before{  border-width:0 5px 5px 0;border-right-color:inherit;left:-5px;}
+  #digital-clock .digits .d1:after{ border-width:0 0 5px 5px;border-left-color:inherit;right:-5px;}
+  
+  #digital-clock .digits .d2{     height:5px;width:16px;top:24px;left:6px;}
+  #digital-clock .digits .d2:before{  border-width:3px 4px 2px;border-right-color:inherit;left:-8px;}
+  #digital-clock .digits .d2:after{ border-width:3px 4px 2px;border-left-color:inherit;right:-8px;}
+  
+  #digital-clock .digits .d3{     height:5px;width:16px;top:48px;left:6px;}
+  #digital-clock .digits .d3:before{  border-width:5px 5px 0 0;border-right-color:inherit;left:-5px;}
+  #digital-clock .digits .d3:after{ border-width:5px 0 0 5px;border-left-color:inherit;right:-5px;}
+  
+  #digital-clock .digits .d4{     width:5px;height:14px;top:7px;left:0;}
+  #digital-clock .digits .d4:before{  border-width:0 5px 5px 0;border-bottom-color:inherit;top:-5px;}
+  #digital-clock .digits .d4:after{ border-width:0 0 5px 5px;border-left-color:inherit;bottom:-5px;}
+  
+  #digital-clock .digits .d5{     width:5px;height:14px;top:7px;right:0;}
+  #digital-clock .digits .d5:before{  border-width:0 0 5px 5px;border-bottom-color:inherit;top:-5px;}
+  #digital-clock .digits .d5:after{ border-width:5px 0 0 5px;border-top-color:inherit;bottom:-5px;}
+  
+  #digital-clock .digits .d6{     width:5px;height:14px;top:32px;left:0;}
+  #digital-clock .digits .d6:before{  border-width:0 5px 5px 0;border-bottom-color:inherit;top:-5px;}
+  #digital-clock .digits .d6:after{ border-width:0 0 5px 5px;border-left-color:inherit;bottom:-5px;}
+  
+  #digital-clock .digits .d7{     width:5px;height:14px;top:32px;right:0;}
+  #digital-clock .digits .d7:before{  border-width:0 0 5px 5px;border-bottom-color:inherit;top:-5px;}
+  #digital-clock .digits .d7:after{ border-width:5px 0 0 5px;border-top-color:inherit;bottom:-5px;}
+  
+  
+  /* 1 */
+  
+  #digital-clock .digits div.one .d5,
+  #digital-clock .digits div.one .d7{
+    opacity:1;
+  }
+  
+  /* 2 */
+  
+  #digital-clock .digits div.two .d1,
+  #digital-clock .digits div.two .d5,
+  #digital-clock .digits div.two .d2,
+  #digital-clock .digits div.two .d6,
+  #digital-clock .digits div.two .d3{
+    opacity:1;
+  }
+  
+  /* 3 */
+  
+  #digital-clock .digits div.three .d1,
+  #digital-clock .digits div.three .d5,
+  #digital-clock .digits div.three .d2,
+  #digital-clock .digits div.three .d7,
+  #digital-clock .digits div.three .d3{
+    opacity:1;
+  }
+  
+  /* 4 */
+  
+  #digital-clock .digits div.four .d5,
+  #digital-clock .digits div.four .d2,
+  #digital-clock .digits div.four .d4,
+  #digital-clock .digits div.four .d7{
+    opacity:1;
+  }
+  
+  /* 5 */
+  
+  #digital-clock .digits div.five .d1,
+  #digital-clock .digits div.five .d2,
+  #digital-clock .digits div.five .d4,
+  #digital-clock .digits div.five .d3,
+  #digital-clock .digits div.five .d7{
+    opacity:1;
+  }
+  
+  /* 6 */
+  
+  #digital-clock .digits div.six .d1,
+  #digital-clock .digits div.six .d2,
+  #digital-clock .digits div.six .d4,
+  #digital-clock .digits div.six .d3,
+  #digital-clock .digits div.six .d6,
+  #digital-clock .digits div.six .d7{
+    opacity:1;
+  }
+  
+  
+  /* 7 */
+  
+  #digital-clock .digits div.seven .d1,
+  #digital-clock .digits div.seven .d5,
+  #digital-clock .digits div.seven .d7{
+    opacity:1;
+  }
+  
+  /* 8 */
+  
+  #digital-clock .digits div.eight .d1,
+  #digital-clock .digits div.eight .d2,
+  #digital-clock .digits div.eight .d3,
+  #digital-clock .digits div.eight .d4,
+  #digital-clock .digits div.eight .d5,
+  #digital-clock .digits div.eight .d6,
+  #digital-clock .digits div.eight .d7{
+    opacity:1;
+  }
+  
+  /* 9 */
+  
+  #digital-clock .digits div.nine .d1,
+  #digital-clock .digits div.nine .d2,
+  #digital-clock .digits div.nine .d3,
+  #digital-clock .digits div.nine .d4,
+  #digital-clock .digits div.nine .d5,
+  #digital-clock .digits div.nine .d7{
+    opacity:1;
+  }
+  
+  /* 0 */
+  
+  #digital-clock .digits div.zero .d1,
+  #digital-clock .digits div.zero .d3,
+  #digital-clock .digits div.zero .d4,
+  #digital-clock .digits div.zero .d5,
+  #digital-clock .digits div.zero .d6,
+  #digital-clock .digits div.zero .d7{
+    opacity:1;
+  }
+  
+  
+  /* The dots */
+  
+  #digital-clock .digits div.dots{
+    width:5px;
+  }
+  
+  #digital-clock .digits div.dots:before,
+  #digital-clock .digits div.dots:after{
+    width:5px;
+    height:5px;
+    content:'';
+    position:absolute;
+    left:0;
+    top:14px;
+  }
+  
+  #digital-clock .digits div.dots:after{
+    top:34px;
+  }
+  
+  /*-------------------------
+    Weekdays
+  --------------------------*/
+  
+  
+  #digital-clock .weekdays{
+    font-size:calc(0.6rem + 0.6vw);
+    font-weight: bold;
+    position:absolute;
+    width:100%;
+    height: auto;
+    text-align:center;
+    font-family:Arial, Verdana, Segoe UI; 
+    margin-top: -10px;
+    padding-right: 15px;
+  }
+  
+  
+  #digital-clock .weekdays span{
+    opacity:0.4; 
+    padding:0 10px;
+  }
+  
+  #digital-clock .weekdays span.active{
+    opacity:1; 
+  }
+  
+  
+  /*-------------------------
+      Buttons
+  --------------------------*/
+  
+  
+  .button-holder{
+    display: flex;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  a.button{
+    user-select: none;
+    
+    background-color:#0f0;
+    text-align:center;
+    background-image:-webkit-linear-gradient(top, #000, #444);
+    background-image:-moz-linear-gradient(top, #000, #444);
+    background-image:linear-gradient(top, #000, #444);
+    
+    border:1px solid #000;
+    border-radius:50px;
+  
+    box-shadow:0 2px 6px #000;
+  
+    color:#fff;
+    text-decoration: none !important;
+    padding:10px 8px;
+    display:inline-block;
+    cursor:pointer;
+    font-family:Segoe UI, Arial, Georgia Pro;
+    font-size: calc(0.55rem + 0.55vw);
+    position:relative;
+    width: 25%;
+    height:auto;
+    margin-right: 25px;
+    margin-left: 20px;
+  }
+  a.button2{
+    user-select: none;
+
+    background-color:#0f0;
+    text-align:center;
+    background-image:-webkit-linear-gradient(top, #000, #444);
+    background-image:-moz-linear-gradient(top, #000, #444);
+    background-image:linear-gradient(top, #000, #444);
+  
+    border:1px solid #000;
+    border-radius:50px;
+  
+    box-shadow:0 2px 6px #000;
+  
+    color:#fff;
+    text-decoration: none !important;
+    padding:10px 8px;
+    display:inline-block;
+    cursor:pointer;
+    font-family:Segoe UI, Arial, Georgia Pro;
+    font-size: calc(0.55rem + 0.55vw);
+    position:relative;
+    width: 25%;
+    height:auto;
+    margin-right: 25px;
+  }
+  
+  a.button:hover{
+    opacity:0.9;
+  }
+  .inmatning .btn{
+    width: 100%;
+  }
+
+  /* För justering av knappar i formulär */
+  .selectordiv .btn {
+    border-radius: 25px;
+    width: 40%;  /* Gör knappen lika bred som sin förälder */
+    height: auto;
+    font-size: calc(0.65rem + 0.65vw);
+  }
+
+
+  /*--------------------------------------------
+              BOOKINGS
+  ----------------------------------------------*/
+    .bookings {
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    
+  }
+
+  /* Styla specifikt för form-grupperna */
+  /* För formuläret */
+#booking-form {
+  background-color: #fff; /* Vit bakgrund för hela formuläret */
+  padding: 10px; /* Utrymme runt innehållet */
+  border-radius: 10px; /* Rundade hörn på formuläret */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Lätt skugga för djup */
+  border: 5px solid black;
+  max-width: 800px; /* Maximal bredd på formuläret */
+  margin: 0 auto; /* Centrerar formuläret på sidan */
+  font-family: Arial, sans-serif; /* Fonter som är lättlästa */
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+
+
+/* För varje label */
+.form-group label {
+  display: block; /* Gör så att labeln tar upp hela raden */
+  font-weight: bold; /* Gör labeln fet */
+  margin-bottom: 5px; /* Lite utrymme mellan label och input */
+  color: #333; /* Mörk textfärg för bra läsbarhet */
+}
+
+/* För input-fälten (som redan har klassen .form-control) */
+.form-control {
+  width: 100%; /* Gör input-fälten lika breda som föräldern */
+  padding: 12px 15px; /* Utrymme på insidan av inputen */
+  border: 2px solid #ccc; /* Ljus grå kant */
+  border-radius: 8px; /* Rundade hörn på input-fältet */
+  /*font-size: 16px;*/ /* Bra storlek på texten */
+  background-color: #fff; /* Vit bakgrund på input */
+  transition: all 0.3s ease; /* Mjuk övergångseffekt vid interaktion */
+}
+
+/* När input-fälten är i fokus */
+.form-control:focus {
+  border-color: #007bff; /* Blå kant när inputen är i fokus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Lätt blå skugga */
+  outline: none; /* Ta bort den vanliga konturen */
+}
+
+/* Placeholder text */
+.form-control::placeholder {
+  color: #888; /* Ljusgrå färg för placeholder */
+  font-style: italic; /* Kursiv text */
+  font-size: calc(0.5rem + 0.5vw);
+}
+
+#booking-name-label{
+  font-size: calc(0.6rem + 0.6vw);
+  text-align: center;
+}
+  
+.form-group div {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/*Gömmer datum då vi inte behöver det.*/
+#booking-date{
+  display: none;
+}
+#booking-dlabel{
+  display: none;
+}
+
+#booking-time-from,
+#booking-time-to {
+    width: 100%;
+}
+
+  .inne_bookings{
+    display: flex;
+
+    background-color: beige;
+    border: 2px solid black;
+    border-radius: 30px;
+    justify-content: center;
+  }
+  .inne_bookings h2{
+    margin: 0; /* Ta bort standardmarginaler för h2 */
+    font-family: 'American Typewriter','Roboto', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: calc(1.1rem + 1.1vw);
+    user-select: none;
+  }
+  .utmatning{
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: calc(1.1rem + 22.9vw);
+    background-color: rgb(255, 255, 255);
+    border: 5px solid black;
+    border-radius: 20px;
+  }
+  .selectordiv{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 5px;
+    
+  }
+  
+
+  /*-----------------------------------
+            Utmatnings div:en 
+  -------------------------------------*/
+    
+
+  .booking {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+  }
+
+  .booking h3 {
+      margin-top: 0;
+  }
+
+  .booking p {
+      margin: 5px 0;
+  }
+
+  .booking strong {
+      font-weight: bold;
+  }
+  /* Gör så att listan fyller hela bredden */
+  #bookings-list {
+    display: block; /* Gör listan vertikal */ /*display: flex;  Gör listan vertikal */
+    padding: 10px;
+    width: 100%;
+}
+
+/* Första styling för själva listan */
+#bookings-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  gap: 15px; /* Mellanrum mellan bokningarna */
+  max-height: calc(1.1rem + 20.9vw); /* Sätt maxhöjd för att förhindra överflöd */
+  overflow-y: auto; /* Gör listan rullbar när det behövs */
+  border: 1px solid #ddd; /* Lägger till en lätt kant runt listan */
+  border-radius: 8px; /* Runda hörn för listan */
+  padding-right: 10px; /* Minska padding för att undvika att scrollbar skapar extra utrymme */
+  scrollbar-width: thin; /* För att minska scrollbars bredd (stöd för Firefox) */
+  scrollbar-color: #00796b #e0f7fa; /* Färger för scrollbaren (stöd för Firefox) */
+  border: none;
+}
+
+/* Scrollbar för webkit-browsers (Chrome, Safari, Edge) */
+#bookings-list::-webkit-scrollbar {
+  width: 8px; /* Justera bredden på scrollbar */
+}
+
+#bookings-list::-webkit-scrollbar-thumb {
+  background-color: #00796b; /* Färg för scroll-thumb */
+  border-radius: 4px; /* Runda hörn på scrollbar-thumb */
+}
+
+#bookings-list::-webkit-scrollbar-track {
+  background-color: #e0f7fa; /* Färg för bakgrunds-tracket */
+}
+
+/* Styling för varje listobjekt */
+#bookings-list li {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+  padding-top: -5px;
+  padding-bottom: -5px;
+  margin-left: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  transform: translateX(0); /* Sätt startvärde för animationen */
+}
+
+/* Hover-effekt för bokningar */
+#bookings-list li:hover {
+  background-color: #e0f7fa; /* Bakgrundsändring vid hover */
+  transform: translateY(-5px); /* Lätt lyftning vid hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Större skugga vid hover */
+}
+
+/* Styling för namn och tid i varje bokning */
+.booking-name {
+  font-weight: bold;
+  font-size: calc(0.45rem + 0.45vw);
+  color: #333;
+}
+
+
+.booking-time {
+  display: block;
+  margin-top: 5px;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* Styling för vald bokning */
+#bookings-list li.selected {
+  border: 2px solid #000679; /* Grön kant för vald bokning */
+  
+}
+
+/* Animation för glidande effekt */
+.slide-in {
+  opacity: 0;
+  transform: translateX(100%);
+  animation: slideIn 0.5s forwards; /* Lägg till animation för att glida in */
+}
+
+@keyframes slideIn {
+  
+  to {
+      opacity: 1;
+      transform: translateY(10%);
+  }
+}
+
+
+
+
+
+/*-------------------------------------------------------
+                Timepicker CSS
+---------------------------------------------------------*/
+.modal.timepicker-modal{
+
+  background-color:rgba(0, 0, 0, 0);
+  box-shadow: 0 0px 0px #000;
+  
+}
+.timepicker-content{
+  display: flex;
+  top: 50%;
+  
+}
+.modal-content.timepicker-container{
+  top: 270px;
+  border: 4px solid black;
+  border-radius: 27px;
+}
+
+.timepicker-digital-display{
+  border-top-left-radius: 22px;
+  border-bottom-left-radius: 22px;
+}
+
+  /*-------------------------------------------------------
+          Klocka/Timepicker (Väljer tid från och till)
+  --------------------------------------------------------*/
+/* Döljer timepicker som standard */
+#timepicker {
+  display: none;
+  margin-top: 10px;
+}
+
+/* Göm OK-knappen */
+#close-timepicker {
+  display: none;  /* Detta döljer knappen */
+}
+
+/* Göm inputfältet */
+#floating-timepicker {
+  display: none;  /* Detta döljer inputfältet */
+}
+
+/*--------------------------------------------------------
+            Namn/Tider inmatnings fälten
+- Namn div
+- Namn label
+- Namn input
+- time_to
+- time_from
+----------------------------------------------------------*/
+#Tider{
+  
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: auto;
+    background-color: rgb(255, 255, 255);
+    border: 5px solid black;
+    border-radius: 20px;
+}
+#time_label{
+  display: block; /* Gör så att labeln tar upp hela raden */
+  font-weight: bold; /* Gör labeln fet */
+  margin-bottom: 5px; /* Lite utrymme mellan label och input */
+  color: #333; /* Mörk textfärg för bra läsbarhet */
+  font-size: calc(0.6rem + 0.6vw);
+  text-align: center;
+}
+#Tider .btn{
+  width: 100%;
+  height: auto;
+  font-size: calc(0.45rem + 0.45vw);;
+}
+
+/*Test av loading spinner*/
+.spinner {
+  border: 4px solid #f3f3f3; /* Light grey */
+  border-top: 4px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/*------------------------------------------------------------
+                    Name suggestions (Div:s)
+--------------------------------------------------------------*/
+/* För den yttre containern (name_suggest) */
+.name_suggest {
+  display: grid;               /* Använd CSS Grid */
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Automatiskt skapa kolumner beroende på tillgängligt utrymme */
+  gap: 8px;                    /* Mellanrum mellan varje bubbla */
+  width: 100%;                 /* Tar upp hela bredden på föräldraelementet */
+  padding: 10px;               /* Lite utrymme runt om för visuell separering */
+  margin-top: -8px;            /* Lite avstånd från toppen */
+  margin-bottom: -18px;
+  box-sizing: border-box;      /* Se till att padding inte påverkar bredden */
+}
+
+/* Stil för varje bubbla */
+.name_suggest .suggestion {
+  padding: 3px 8px;            /* Minskat utrymme runt texten */
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 12px;         /* Minskat rundade hörn */
+  cursor: pointer;
+  font-size: calc(0.45rem + 0.45vw);             /* Minskat textstorlek */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;          /* Centrerad text */
+  white-space: nowrap;         /* Förhindrar att texten bryts */
+  transition: background-color 0.2s, transform 0.1s;
+  user-select: none;
+}
+
+/* Hover-effekt på bubbla */
+.name_suggest .suggestion:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.04); /* Lätt förstoring vid hover */
+}
